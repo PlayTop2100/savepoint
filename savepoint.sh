@@ -1,30 +1,26 @@
 #!/bin/bash
 
 saveloc="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)/saves/"
-if [ -z $1 ]; then
-	1="--help"
-fi
-if [  -z $2 ]; then
-	label="default"
-else
-	label="$2"
-fi
-if [ $1 = "-s" ]; then
+
+arg="${1:---help}"
+label="${2:-default}"
+
+if [[ $1 = "-s" ]]; then
 	pwd > "$saveloc$label.txt"
-elif [ $1 = "-l" ]; then
+elif [[ $1 = "-l" ]]; then
 	if [ -f "$saveloc$label.txt" ]; then
 		labelloc=$(<"$saveloc$label.txt")
 		cd $labelloc
 	else
 		echo "Label '$label' does not exist"
 	fi
-elif [ $1 = "-r" ]; then
+elif [[ $1 = "-r" ]]; then
 	if [ -f "$saveloc$label.txt" ]; then
 		rm "$saveloc$label.txt"
 	else
 		echo "Label '$label' does not exist"
 	fi
-elif [ $1 = "--list" ]; then
+elif [[ $1 = "--list" ]]; then
 	lsoutput=$(ls -m $saveloc)
 	lsoutput=${lsoutput//[$'\t\r\n']}
 	lsoutput=${lsoutput//,/}
@@ -48,7 +44,7 @@ elif [ $1 = "--list" ]; then
 		echo -n "$fname : "
 		echo "$conts"
 	done
-elif [ $1 = "--help" ]; then
+elif [[ $1 = "--help" ]]; then
 	echo "-s [label] : Save current path"
 	echo "-l [label] : Load saved path"
 	echo "-r [label] : Remove label"
