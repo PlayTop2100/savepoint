@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/zsh
 
-# Updated savepoint.sh to be a bash function and added tab completion
+# Updated savepoint.sh to be a function and added tab completion
 
 # To use, add the following to your .zshrc:
 # autoload bashcompinit && bashcompinit
@@ -62,10 +62,10 @@ savepoint() {
             fi
         done
         # Print the file names and their contents
-        for (( i=0; i<${len}; i++ ));
+        for file in "${files[@]}"
         do
-            conts=$(cat "$saveloc${files[$i]}.txt")
-            printf "%${longLen}s : %s\n" "${files[$i]}" "$conts"
+            conts=$(cat "$saveloc$file.txt")
+            printf "%${longLen}s : %s\n" "$file" "$conts"
         done
     elif [[ $arg = "--help" ]]; then
         echo "Usage: savepoint [flag] [label]"
